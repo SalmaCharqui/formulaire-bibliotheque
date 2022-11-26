@@ -118,6 +118,7 @@
             this.dataGridViewBd.RowTemplate.Height = 25;
             this.dataGridViewBd.Size = new System.Drawing.Size(622, 100);
             this.dataGridViewBd.TabIndex = 8;
+            this.dataGridViewBd.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewBd_CellContentClick);
             // 
             // groupBox1
             // 
@@ -151,7 +152,7 @@
             this.lblnom.Size = new System.Drawing.Size(75, 15);
             this.lblnom.TabIndex = 9;
             this.lblnom.Text = "Nom de livre";
-            this.lblnom.Click += new System.EventHandler(this.label2_Click);
+            this.lblnom.Click += new System.EventHandler(this.lblnom_Click);
             // 
             // lblref
             // 
@@ -169,6 +170,7 @@
             this.comboBoxReference.Name = "comboBoxReference";
             this.comboBoxReference.Size = new System.Drawing.Size(317, 23);
             this.comboBoxReference.TabIndex = 7;
+            this.comboBoxReference.SelectedIndexChanged += new System.EventHandler(this.comboBoxReference_SelectedIndexChanged);
             // 
             // Form1
             // 

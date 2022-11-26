@@ -24,6 +24,10 @@ namespace formulaire_bibliotheque
         {
             InitializeComponent();
         }
+      private void  label2_click(object sender,EventArgs e)
+        {
+
+        }
 
         private void btnConfirmer_Click(object sender, EventArgs e)
         {
@@ -31,7 +35,7 @@ namespace formulaire_bibliotheque
         }
         private void btnAnnuler_Click(object sender,EventArgs e)
         {
-        
+          Application.Exit();
         }
 
         private void btnsupprimer_Click(object sender, EventArgs e)
@@ -45,6 +49,7 @@ namespace formulaire_bibliotheque
             SqlCommand sqlcmd = new SqlCommand(strSql, cnx);
             sqlcmd.Connection.Open();
             sqlcmd.ExecuteNonQuery();
+
             btnNouveau.Enabled = false;
             btnModifier.Enabled = false;
             btnsupprimer.Enabled = false;
@@ -57,11 +62,13 @@ namespace formulaire_bibliotheque
         private void  btnNouveau_Click(object sender, EventArgs e)
         {
 
+         //   dataGridViewBd.Rows.Add(comboBoxReference.Text, textBoxNom.Text, textBoxPrix.Text);
             SqlConnection cnx = new SqlConnection(strConnection);
             string strSql = "Insert into livre Values('" + comboBoxReference.Text + "', '" + textBoxNom.Text + "','" + textBoxPrix.Text + "')";
             SqlCommand sqlcmd =new SqlCommand(strSql, cnx);
             sqlcmd.Connection.Open();
             sqlcmd.ExecuteNonQuery();
+        
             btnNouveau.Enabled = false;
             btnModifier.Enabled = false;
             btnsupprimer.Enabled = false;
@@ -85,6 +92,7 @@ namespace formulaire_bibliotheque
             SqlCommand sqlcmd = new SqlCommand(strSql, cnx);
             sqlcmd.Connection.Open();
             sqlcmd.ExecuteNonQuery();
+
             btnNouveau.Enabled = false;
             btnModifier.Enabled = false;
             btnsupprimer.Enabled = false;
@@ -97,6 +105,36 @@ namespace formulaire_bibliotheque
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void lblnom_Click(object sender, EventArgs e)
+        {
+
+        }
+        DataSet ds;
+        SqlDataAdapter dap;
+
+        private void comboBoxReference_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SqlConnection cnx = new SqlConnection(strConnection);
+            string strSql = "select refence from livre";
+            SqlCommand sqlcmd = new SqlCommand(strSql, cnx);
+            
+            dap = new SqlDataAdapter(sqlcmd);
+            ds = new DataSet();
+            dap.Fill(ds,"reference");
+            foreach(DataRow x in ds.Tables[0].Rows)
+            {
+                comboBoxReference.Items.Add(x[0].ToString());
+            }
+
+
+        }
+
+        private void dataGridViewBd_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            dataGridViewBd.Rows.Add(comboBoxReference.SelectedItem, textBoxNom.Text, textBoxPrix.Text);
 
         }
     }
