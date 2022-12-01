@@ -24,18 +24,17 @@ namespace formulaire_bibliotheque
         {
             InitializeComponent();
         }
-      private void  label2_click(object sender,EventArgs e)
-        {
-
-        }
-
+    
         private void btnConfirmer_Click(object sender, EventArgs e)
         {
             comboBoxReference.Enabled = true;
+            MessageBox.Show("operation efectuee");           
         }
         private void btnAnnuler_Click(object sender,EventArgs e)
         {
-          Application.Exit();
+            comboBoxReference.Text = "";
+            textBoxNom.Text = "";
+            textBoxPrix.Text = "";
         }
 
         private void btnsupprimer_Click(object sender, EventArgs e)
@@ -45,16 +44,13 @@ namespace formulaire_bibliotheque
         void delete(string reference)
         {
             SqlConnection cnx = new SqlConnection(strConnection);
-            string strSql = "delete from livre where refernce='"+comboBoxReference.Text+ "';";
+            string strSql = "delete from livre where reference='"+comboBoxReference.Text+ "';";
             SqlCommand sqlcmd = new SqlCommand(strSql, cnx);
             sqlcmd.Connection.Open();
             sqlcmd.ExecuteNonQuery();
-
             btnNouveau.Enabled = false;
             btnModifier.Enabled = false;
             btnsupprimer.Enabled = false;
-            btnModifier.Visible = false;
-            btnsupprimer.Visible = false;
             btnConfirmer.Enabled = true;
             btnAnnuler.Enabled = true;
             cnx.Close();
@@ -68,12 +64,9 @@ namespace formulaire_bibliotheque
             SqlCommand sqlcmd =new SqlCommand(strSql, cnx);
             sqlcmd.Connection.Open();
             sqlcmd.ExecuteNonQuery();
-        
             btnNouveau.Enabled = false;
             btnModifier.Enabled = false;
             btnsupprimer.Enabled = false;
-            btnModifier.Visible = false;
-            btnsupprimer.Visible = false;
             btnConfirmer.Enabled = true;
             btnAnnuler.Enabled = true;
             cnx.Close();
@@ -82,41 +75,55 @@ namespace formulaire_bibliotheque
 
         private void btnModifier_Click(object sender, EventArgs e)
         {
-            update(comboBoxReference.Text, textBoxNom.Text, textBoxPrix.Text);
-
-        }
-        void update(string reference,string nom,string prix)
-        {
+         
             SqlConnection cnx = new SqlConnection(strConnection);
-            string strSql = "update livre set name'" + comboBoxReference.Text + "', '" + textBoxNom.Text + "','" + textBoxPrix.Text + "';";
+            string strSql = "update livre set nom='" + textBoxNom.Text + "',prix='" + textBoxPrix.Text + "' where reference='" + comboBoxReference.Text + "' ";
             SqlCommand sqlcmd = new SqlCommand(strSql, cnx);
             sqlcmd.Connection.Open();
             sqlcmd.ExecuteNonQuery();
-
             btnNouveau.Enabled = false;
             btnModifier.Enabled = false;
             btnsupprimer.Enabled = false;
-            btnModifier.Visible = false;
-            btnsupprimer.Visible = false;
             btnConfirmer.Enabled = true;
             btnAnnuler.Enabled = true;
             cnx.Close();
         }
-
+       
         private void Form1_Load(object sender, EventArgs e)
         {
+            FillComboRef();
+            FILLDGV();
 
+        }
+        private void FillComboRef()
+        {
+           /* comboBoxReference.Items.Clear();
+            SqlConnection cnx = new SqlConnection(strConnection);
+            cnx.Open();
+            SqlCommand cmd = new SqlCommand();
+            cmd =cnx.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "select * from reference";
+            cmd.ExecuteNonQuery();
+            DataTable dt =new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+            foreach(DataRow dr in dt.Rows)
+            {
+                comboBoxReference.Items.Add(dr["reference"].ToString());
+            }
+            cnx.Close();*/
         }
 
         private void lblnom_Click(object sender, EventArgs e)
         {
 
         }
-        DataSet ds;
-        SqlDataAdapter dap;
+        
 
         private void comboBoxReference_SelectedIndexChanged(object sender, EventArgs e)
         {
+            /*
             SqlConnection cnx = new SqlConnection(strConnection);
             string strSql = "select refence from livre";
             SqlCommand sqlcmd = new SqlCommand(strSql, cnx);
@@ -127,14 +134,56 @@ namespace formulaire_bibliotheque
             foreach(DataRow x in ds.Tables[0].Rows)
             {
                 comboBoxReference.Items.Add(x[0].ToString());
+            }*/
+            try
+            {
+                SqlConnection cnx = new SqlConnection(strConnection);
+                string strSql = "SELECT * FROM livre";
+                cnx.Open();
+                SqlCommand sqlcmd = new SqlCommand(strSql, cnx);
+                SqlDataReader reader = sqlcmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    comboBoxReference.Items.Add(reader.GetString("reference"));
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
 
+        }
+        private void FILLDGV()
+        {
+            try
+            {
+                SqlConnection cnx = new SqlConnection(strConnection);
+                string query = "select * from livre";
+                SqlDataAdapter adapter = new SqlDataAdapter(query, cnx);
+                cnx.Open();
+               // DataSet ds = new DataSet();
+               DataTable dt =new DataTable();
+                adapter.Fill(dt);
+               // adapter.Fill(ds, "livre");
+                dataGridViewBd.DataSource = dt;
+                cnx.Close();
 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void dataGridViewBd_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            dataGridViewBd.Rows.Add(comboBoxReference.SelectedItem, textBoxNom.Text, textBoxPrix.Text);
+            //dataGridViewBd.Rows.Add(comboBoxReference.SelectedItem, textBoxNom.Text, textBoxPrix.Text);
+
+        }
+
+        private void Form1_Load_1(object sender, EventArgs e)
+        {
 
         }
     }

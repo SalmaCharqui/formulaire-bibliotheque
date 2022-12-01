@@ -35,13 +35,11 @@
             this.textBoxNom = new System.Windows.Forms.TextBox();
             this.textBoxPrix = new System.Windows.Forms.TextBox();
             this.btnAnnuler = new System.Windows.Forms.Button();
-            this.dataGridViewBd = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblprix = new System.Windows.Forms.Label();
             this.lblnom = new System.Windows.Forms.Label();
             this.lblref = new System.Windows.Forms.Label();
             this.comboBoxReference = new System.Windows.Forms.ComboBox();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBd)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -109,16 +107,7 @@
             this.btnAnnuler.TabIndex = 7;
             this.btnAnnuler.Text = "Annuler";
             this.btnAnnuler.UseVisualStyleBackColor = true;
-            // 
-            // dataGridViewBd
-            // 
-            this.dataGridViewBd.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewBd.Location = new System.Drawing.Point(49, 252);
-            this.dataGridViewBd.Name = "dataGridViewBd";
-            this.dataGridViewBd.RowTemplate.Height = 25;
-            this.dataGridViewBd.Size = new System.Drawing.Size(622, 100);
-            this.dataGridViewBd.TabIndex = 8;
-            this.dataGridViewBd.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewBd_CellContentClick);
+            this.btnAnnuler.Click += new System.EventHandler(this.btnAnnuler_Click);
             // 
             // groupBox1
             // 
@@ -166,6 +155,13 @@
             // comboBoxReference
             // 
             this.comboBoxReference.FormattingEnabled = true;
+            this.comboBoxReference.Items.AddRange(new object[] {
+            "567u",
+            "b12",
+            "BD2004",
+            "Cb2003",
+            "wert13",
+            "134567b"});
             this.comboBoxReference.Location = new System.Drawing.Point(135, 35);
             this.comboBoxReference.Name = "comboBoxReference";
             this.comboBoxReference.Size = new System.Drawing.Size(317, 23);
@@ -179,7 +175,6 @@
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(725, 379);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.dataGridViewBd);
             this.Controls.Add(this.btnAnnuler);
             this.Controls.Add(this.btnConfirmer);
             this.Controls.Add(this.btnsupprimer);
@@ -187,7 +182,7 @@
             this.Controls.Add(this.btnNouveau);
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewBd)).EndInit();
+            this.Load += new System.EventHandler(this.Form1_Load_1);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
